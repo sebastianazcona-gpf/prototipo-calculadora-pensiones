@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Prototipo de preevaluación pensionaria IMSS.">
+  <title>Pre-evaluación pensionaria IMSS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark">✓</span><span>Pre-evaluación pensionaria</span></div>
+    <span class="local-note">Prototipo: los datos se procesan únicamente en este navegador</span>
+  </header>
+
+  <main class="layout">
+    <section class="calculator">
+      <header class="hero">
+        <span class="eyebrow">Prototipo funcional</span>
+        <h1>Conoce tu viabilidad pensionaria preliminar</h1>
+        <p>Completa el formulario para obtener una orientación inicial. El resultado no sustituye una validación documental ni la resolución oficial del IMSS.</p>
+      </header>
+
+      <nav class="steps" aria-label="Progreso">
+        <div class="step active" data-indicator="0"><b>1</b><span>Inicio</span></div>
+        <div class="step" data-indicator="1"><b>2</b><span>Datos personales</span></div>
+        <div class="step" data-indicator="2"><b>3</b><span>Información laboral</span></div>
+        <div class="step" data-indicator="3"><b>4</b><span>Resultado</span></div>
+      </nav>
+
+      <form id="calculatorForm" novalidate>
+        <section class="panel active" data-panel="0">
+          <h2>Antes de comenzar</h2>
+          <p class="lead">Esta herramienta funciona como filtro inicial. No calcula un monto de pensión porque se requiere información documental adicional.</p>
+          <div class="requirement-grid">
+            <article><strong>Cotización anterior a julio de 1997</strong><span>Debe confirmarse con la fecha exacta y la constancia.</span></article>
+            <article><strong>No estar pensionado</strong><span>El flujo está dirigido a personas en preparación para el retiro.</span></article>
+            <article><strong>Edad cercana al retiro</strong><span>La edad se estima mediante la CURP.</span></article>
+            <article><strong>Semanas cotizadas</strong><span>El dato declarado debe validarse documentalmente.</span></article>
+          </div>
+          <div class="notice"><strong>Privacidad de la demo:</strong> la información no se almacena ni se envía a ningún servidor.</div>
+          <div class="actions end"><button type="button" class="primary" data-next>Comenzar →</button></div>
+        </section>
+
+        <section class="panel" data-panel="1">
+          <h2>Datos personales</h2>
+          <p class="lead">Los campos de contacto replican el flujo de captación, pero en este prototipo no se envían.</p>
+          <div class="form-grid">
+            <label>Nombre *<input id="firstName" name="firstName" required><small data-error="firstName"></small></label>
+            <label>Apellidos *<input id="lastName" name="lastName" required><small data-error="lastName"></small></label>
+            <label>Correo electrónico *<input id="email" name="email" type="email" required><small data-error="email"></small></label>
+            <label>Celular *<input id="phone" name="phone" inputmode="numeric" maxlength="10" placeholder="10 dígitos" required><small data-error="phone"></small></label>
+          </div>
+          <div class="actions"><button type="button" class="secondary" data-prev>Regresar</button><button type="button" class="primary" data-next>Continuar</button></div>
+        </section>
+
+        <section class="panel" data-panel="2">
+          <h2>Información laboral y semanas</h2>
+          <p class="lead">El régimen, la conservación de derechos y las semanas deben confirmarse con documentación oficial.</p>
+          <div class="form-grid">
+            <label>¿En qué año comenzaste a trabajar? *
+              <select id="startYear" name="startYear" required><option value="">Selecciona un año</option></select>
+              <small data-error="startYear"></small>
+            </label>
+
+            <fieldset><legend>¿Ya estás pensionado? *</legend><div class="choices"><label><input type="radio" name="pensioned" value="yes"><span>Sí</span></label><label><input type="radio" name="pensioned" value="no"><span>No</span></label></div><small data-error="pensioned"></small></fieldset>
+
+            <label>CURP *<input id="curp" name="curp" maxlength="18" placeholder="18 caracteres" required><em>Se usa para estimar la fecha de nacimiento.</em><small data-error="curp"></small></label>
+            <label>NSS *<input id="nss" name="nss" inputmode="numeric" maxlength="11" placeholder="11 dígitos" required><em>La demo solo valida el formato.</em><small data-error="nss"></small></label>
+
+            <fieldset><legend>¿Estás inscrito en Modalidad 40? *</legend><div class="choices"><label><input type="radio" name="m40" value="yes"><span>Sí</span></label><label><input type="radio" name="m40" value="no"><span>No</span></label></div><small data-error="m40"></small></fieldset>
+            <fieldset><legend>¿Actualmente cotizas en el IMSS? *</legend><div class="choices"><label><input type="radio" name="activeIMSS" value="yes"><span>Sí</span></label><label><input type="radio" name="activeIMSS" value="no"><span>No</span></label></div><small data-error="activeIMSS"></small></fieldset>
+
+            <label class="full">Semanas cotizadas *
+              <div class="range"><input id="weeksRange" type="range" min="500" max="2000" value="800"><input id="weeks" name="weeks" type="number" min="0" max="3000" value="800" required></div>
+              <small data-error="weeks"></small>
+            </label>
+
+            <label>Mes de baja del IMSS *
+              <select id="bajaMonth" name="bajaMonth" required>
+                <option value="">Selecciona un mes</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+              </select><small data-error="bajaMonth"></small>
+            </label>
+            <label>Año de baja del IMSS *<select id="bajaYear" name="bajaYear" required><option value="">Selecciona un año</option></select><small data-error="bajaYear"></small></label>
+
+            <label class="full upload">Constancia de semanas cotizadas
+              <input id="statement" type="file" accept="application/pdf,.pdf">
+              <span>Selecciona un PDF de máximo 2 MB</span><b id="fileName"></b><small data-error="statement"></small>
+            </label>
+          </div>
+          <div class="actions"><button type="button" class="secondary" data-prev>Regresar</button><button type="submit" class="primary">Obtener resultado</button></div>
+        </section>
+
+        <section class="panel" data-panel="3">
+          <div id="result"></div>
+          <div class="actions"><button type="button" id="restart" class="secondary">Realizar otra evaluación</button></div>
+        </section>
+      </form>
+    </section>
+
+    <aside class="sidebar">
+      <h3>Qué evalúa esta demo</h3>
+      <p>Replica las rutas visibles de una preevaluación pensionaria sin copiar marca, activos o lógica privada de terceros.</p>
+      <ul><li>Edad obtenida de la CURP.</li><li>Meses faltantes para cumplir 60.</li><li>Régimen probable según el año declarado.</li><li>Semanas, situación laboral y antigüedad de la baja.</li><li>Ruta sugerida: candidato, revisión o no elegible.</li></ul>
+      <button id="demo" class="demo" type="button">Cargar datos de demostración</button>
+      <p class="fine">No calcula una cantidad de pensión porque faltan variables indispensables, como salarios reconocidos y beneficiarios.</p>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
